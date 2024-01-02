@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AtualizaVideoRequest;
 use App\Models\Video;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\CriaVideoRequest;
 
@@ -39,5 +38,11 @@ class VideoController extends Controller
         $video->save();
 
         return response()->json($video);
+    }
+
+    public function deletaVideo(Video $video)
+    {
+        $video->delete();
+        return response()->json(['message' => "Video deletado com id: {$video->id}"], Response::HTTP_NO_CONTENT);
     }
 }
