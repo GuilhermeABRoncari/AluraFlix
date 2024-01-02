@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
-    public function index()
+    public function retornarTodos()
     {
         return response()->json(Video::all());
+    }
+
+    public function encontrarPorId(Video $video)
+    {
+        return response()->json($video);
     }
 }
