@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AtualizaVideoRequest;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,6 +27,17 @@ class VideoController extends Controller
 
         $resourceLink = "localhost:8000/api/video/{$video->id}";
 
-        return response()->json(['message' => 'Video craido com sucesso.'], Response::HTTP_CREATED)->header('Location', $resourceLink);
+        return response()->json(
+            ['message' => 'Video craido com sucesso: ' . $resourceLink],
+             Response::HTTP_CREATED)->header('Location', $resourceLink);
+    }
+
+    public function atualizar(Video $video, AtualizaVideoRequest $request)
+    {
+        $dadosValidados = $request->validated();
+        $video->atualiza($dadosValidados);
+        $video->save();
+
+        return response()->json($video);
     }
 }

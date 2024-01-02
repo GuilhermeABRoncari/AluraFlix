@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CriaVideoRequest extends FormRequest
+class AtualizaVideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class CriaVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            'titulo' => 'required|string|min:1|max:60',
-            'descricao' => 'present|string|max:1000',
-            'url' => 'required|url',
+            'titulo' => 'string|min:1|max:60',
+            'descricao' => 'string|max:1000',
+            'url' => 'url',
         ];
     }
 

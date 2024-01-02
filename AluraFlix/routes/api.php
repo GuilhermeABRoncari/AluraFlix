@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/videos', [VideoController::class, 'retornarTodos']);
 Route::get('/videos/{video}', [VideoController::class, 'encontrarPorId']);
 Route::post('/videos', [VideoController::class, 'criaNovoVideo']);
+Route::put('/videos/{video}', [VideoController::class, 'atualizar']);
