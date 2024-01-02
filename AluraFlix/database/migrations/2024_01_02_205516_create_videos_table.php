@@ -14,7 +14,7 @@ class CreateVideosTable extends Migration
     public function up()
     {
         Schema::create('videos', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('titulo', 60);
             $table->string('descricao', 1000);
             $table->text('url');
