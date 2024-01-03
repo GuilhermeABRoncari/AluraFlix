@@ -13,9 +13,9 @@ class VideoController extends Controller
 {
     private VideoService $service;
 
-    public function __construct(VideoRepository $repository)
+    public function __construct(VideoService $service)
     {
-        $this->service = new VideoService($repository);
+        $this->service = $service;
     }
 
     public function retornarTodos()

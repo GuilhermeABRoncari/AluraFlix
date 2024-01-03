@@ -16,7 +16,7 @@ class VideoService
         $this->repository = $repository;
     }
 
-    public function encontrarTodos(): array
+    public function encontrarTodos()
     {
         return $this->repository->encontrarTodos();
     }
