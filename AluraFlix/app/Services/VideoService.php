@@ -14,6 +14,14 @@ class VideoService
         $this->repository = $repository;
     }
 
+    public function criaNovoVideo($dadoValidos): Video
+    {
+        if (empty($dadoValidos['categoria_id'])) {
+            $dadoValidos['categoria_id'] = 1;
+        }
+        return $this->repository->salvar($dadoValidos);
+    }
+
     public function encontrarTodos()
     {
         return $this->repository->encontrarTodos();

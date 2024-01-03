@@ -10,6 +10,11 @@ class Video extends Model
     use HasFactory;
     protected $fillable = ['titulo', 'descricao', 'url'];
 
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
     public function atualiza(array $dados): void
     {
         $this->titulo = isset($dados['titulo']) ? $dados['titulo'] : $this->titulo;

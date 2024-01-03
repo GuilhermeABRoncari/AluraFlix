@@ -27,11 +27,12 @@ class CriaVideoRequest extends FormRequest
             'titulo' => 'required|string|min:1|max:60',
             'descricao' => 'present|string|max:1000',
             'url' => 'required|url',
+            'categoria_id' => 'integer',
         ];
     }
 
     public function validated()
     {
-        return $this->only(['titulo', 'descricao', 'url']);
+        return $this->only(['titulo', 'descricao', 'url', 'categoria_id']);
     }
 }

@@ -30,7 +30,7 @@ class VideoController extends Controller
     public function criaNovoVideo(CriaVideoRequest $request)
     {
         $dadosValidos = $request->validated();
-        $video = Video::create($dadosValidos);
+        $video = $this->service->criaNovoVideo($dadosValidos);
 
         $resourceLink = "localhost:8000/api/video/{$video->id}";
 
