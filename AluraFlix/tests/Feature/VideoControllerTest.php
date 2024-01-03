@@ -49,7 +49,7 @@ class VideoControllerTest extends TestCase
     {
         $video = Video::factory()->create();
         $data = [
-            'Titulo novo de teste'
+            'Titulo novo'
         ];
 
         $response = $this->putJson("/api/videos/{$video->id}", $data); 
