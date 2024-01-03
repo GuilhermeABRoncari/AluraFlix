@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Response;
 use App\Services\VideoService;
-use App\Repositories\VideoRepository;
 use App\Http\Requests\CriaVideoRequest;
 use App\Http\Requests\AtualizaVideoRequest;
 
@@ -40,13 +39,9 @@ class VideoController extends Controller
              Response::HTTP_CREATED)->header('Location', $resourceLink);
     }
 
-    public function atualizar(Video $video, AtualizaVideoRequest $request)
+    public function atualizar(int $id, AtualizaVideoRequest $request)
     {
-        $dadosValidados = $request->validated();
-        $video->atualiza($dadosValidados);
-        $video->save();
-
-        return response()->json($video);
+        return response()->json($this->service->atualizarPorId($id, $request->validated()));
     }
 
     public function deletaVideo(Video $video)
