@@ -7,8 +7,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EloquentVideoRepository implements VideoRepository
 {
-    private const NOT_FOUND = "Video não encontrado com id: ";
-
     public function salvar(array $dadosVideo): Video
     {
         return Video::create($dadosVideo['titulo'], $dadosVideo['descricao'], $dadosVideo['url']);
@@ -21,28 +19,19 @@ class EloquentVideoRepository implements VideoRepository
 
     public function encontrarPorId(int $id): Video
     {
-        $video = Video::findOrFail();
-        throw_if (empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
-        return $video;
+        return Video::find($id);
     }
 
-    public function atualizarPorId(int $id, array $dadosVideo): Video
+    public function atualiza(Video $video, array $dadosVideo): Video
     {
-        $video = Video::findOrFail();
-        throw_if (empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
         $video->atualiza($dadosVideo);
         $video->save();
 
         return $video;
     }
 
-    public function deletarPorId(int $id): void
+    public function deleta(Video $video): void
     {
-        $video = Video::findOrFail();
-        throw_if (empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
         $video->delete();
     }
 }

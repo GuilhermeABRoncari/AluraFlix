@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AtualizaVideoRequest;
 use App\Models\Video;
 use Illuminate\Http\Response;
+use App\Services\VideoService;
+use App\Repositories\VideoRepository;
 use App\Http\Requests\CriaVideoRequest;
+use App\Http\Requests\AtualizaVideoRequest;
 
 class VideoController extends Controller
 {
+    private VideoService $service;
+
+    public function __construct(VideoRepository $repository)
+    {
+        $this->service = new VideoService($repository);
+    }
+
     public function retornarTodos()
     {
-        return response()->json(Video::all());
+        return response()->json($this->service->encontrarTodos());
     }
 
     public function encontrarPorId(Video $video)
