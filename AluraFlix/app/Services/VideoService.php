@@ -4,12 +4,10 @@ namespace App\Services;
 
 use App\Models\Video;
 use App\Repositories\VideoRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VideoService
 {
     private VideoRepository $repository;
-    private const NOT_FOUND = "Video não encontrado com id: ";
 
     public function __construct(VideoRepository $repository)
     {
@@ -23,25 +21,19 @@ class VideoService
 
     public function encontrarPorId(int $id): Video
     {
-        $video = $this->repository->encontrarPorId($id);
-        throw_if(empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
-        return $video;
+        return $this->repository->encontrarPorId($id);
     }
 
     public function atualizarPorId(int $id, array $dadosVideo): Video
     {
         $video = $this->repository->encontrarPorId($id);
-        throw_if(empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
-        return $this->repository->atualiza($video, $dadosVideo);
+        $this->repository->atualiza($video, $dadosVideo);
+        return $video;
     }
 
     public function deletarPorId(int $id): void
     {
         $video = $this->repository->encontrarPorId($id);
-        throw_if(empty($video), new NotFoundHttpException(self::NOT_FOUND . $id));
-
         $this->repository->deleta($video);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repositories\PdoVideoRepository;
+use App\Repositories\EloquentVideoRepository;
 use App\Repositories\VideoRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(VideoRepository::class, PdoVideoRepository::class);
+        $this->app->bind(VideoRepository::class, EloquentVideoRepository::class);
     }
 
     /**

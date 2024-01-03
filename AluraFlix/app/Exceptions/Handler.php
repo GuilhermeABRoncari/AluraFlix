@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Throwable;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -36,32 +36,17 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (NotFoundHttpException $e) {
-            return $this->render(new Request(), $e);
+        $this->reportable(function (Throwable $e) {
+            //
         });
-    }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        if ($exception instanceof NotFoundHttpException) {
+        $this->renderable(function (NotFoundHttpException $ex) {
             $response = [
-                'message' => $exception->getMessage(),
-                'status_code' => $exception->getCode(),
-                'timestamp' => now()->format('d-m-Y H:i')
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => $ex->getMessage(),
+                'timestamp' => now()->format('d:m:Y H:i')
             ];
-
-            return response()->json($response, $exception->getCode());
-        }
-
-        return parent::render($request, $exception);
+            return response()->json($response, Response::HTTP_NOT_FOUND);
+        });
     }
 }
