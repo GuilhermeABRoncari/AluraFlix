@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
@@ -24,3 +25,6 @@ Route::get('/videos/{video}', [VideoController::class, 'encontrarPorId']);
 Route::post('/videos', [VideoController::class, 'criaNovoVideo']);
 Route::put('/videos/{video}', [VideoController::class, 'atualizar']);
 Route::delete('/videos/{video}', [VideoController::class, 'deletaVideo']);
+
+Route::post('/categorias', [CategoriaController::class, 'cadastrar']);
+Route::get('/categorias', [CategoriaController::class, 'listar']);
