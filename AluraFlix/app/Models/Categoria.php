@@ -15,4 +15,10 @@ class Categoria extends Model
     {
         return $this->hasMany(Video::class);
     }
+
+    public function atualiza(array $dados): void
+    {
+        $this->titulo = isset($dados['titulo']) ? $dados['titulo'] : $this->titulo;
+        $this->cor = isset($dados['cor']) ? $dados['cor'] : $this->cor;
+    }
 }

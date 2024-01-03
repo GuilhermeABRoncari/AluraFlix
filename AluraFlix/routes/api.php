@@ -28,3 +28,7 @@ Route::delete('/videos/{video}', [VideoController::class, 'deletaVideo']);
 
 Route::post('/categorias', [CategoriaController::class, 'cadastrar']);
 Route::get('/categorias', [CategoriaController::class, 'listar']);
+Route::get('/categorias/{categoria}', [CategoriaController::class, 'encontrar']);
+Route::put('/categorias/{categoria}', [CategoriaController::class, 'atualizar']);
+Route::delete('/categorias/{categoria}', [CategoriaController::class, 'deletar']);
+Route::get('categorias/{categoria}/videos', [CategoriaController::class, 'videoPorCategoria']);
