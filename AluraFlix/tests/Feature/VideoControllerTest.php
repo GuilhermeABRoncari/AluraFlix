@@ -7,7 +7,6 @@ use App\Models\Video;
 use App\Models\Categoria;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VideoControllerTest extends TestCase
 {
@@ -20,9 +19,16 @@ class VideoControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Configurar dados comuns a vários testes
-        $this->categoria = Categoria::factory()->create();
-        $this->video = Video::factory()->create(['categoria_id' => $this->categoria->id]);
+        $this->categoria = Categoria::factory()->create([
+            'titulo' => 'LIVRE',
+            'cor' => '008000'
+        ]);
+
+        $this->video = Video::factory([
+            'titulo' => 'Video de Teste',
+            'descricao' => 'Descrição graciosa',
+            'url' => 'https://www.youtube.com/watch?v=qGvBjgJgn9g&ab_channel=WiLsOnKerci'
+        ])->create(['categoria_id' => $this->categoria->id]);
     }
 
     public function testCriaNovoVideoComDadosValidos()
@@ -34,40 +40,33 @@ class VideoControllerTest extends TestCase
             'categoria_id' => $this->categoria->id
         ];
 
-        $response = $this->postJson('/api/videos', $data);
-        $response->assertStatus(Response::HTTP_CREATED);
+        $this->postJson('/api/videos', $data)->assertStatus(Response::HTTP_CREATED);
     }
 
     public function testDeveRetornarTodosOsVideos()
     {
-        $response = $this->getJson('/api/videos');
-        $response->assertStatus(Response::HTTP_OK);
+        $this->getJson('/api/videos')->assertStatus(Response::HTTP_OK);
     }
 
     public function testDeveEncontrarPorIdQuandoPassadoUmIdValido()
     {
-        $response = $this->getJson("/api/videos/{$this->video->id}");
-        $response->assertStatus(Response::HTTP_OK);
+        $this->getJson("/api/videos/{$this->video->id}")->assertStatus(Response::HTTP_OK);
     }
 
     public function testDeveReceberNotFoundExceptionAoInformarUmIdInvalido()
     {
         $idInvalido = 99955577788999;
-        $response = $this->getJson("/api/videos/{$idInvalido}");
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->getJson("/api/videos/{$idInvalido}")->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     public function testDeveAtualizarVideoComIdEDadosValidos()
     {
         $data = ['titulo' => 'Novo Titulo'];
-
-        $response = $this->putJson("/api/videos/{$this->video->id}", $data);
-        $response->assertStatus(Response::HTTP_OK);
+        $this->putJson("/api/videos/{$this->video->id}", $data)->assertStatus(Response::HTTP_OK);
     }
 
     public function testDeveDeletarVideoComIdValido()
     {
-        $response = $this->deleteJson("/api/videos/{$this->video->id}");
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->deleteJson("/api/videos/{$this->video->id}")->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }
