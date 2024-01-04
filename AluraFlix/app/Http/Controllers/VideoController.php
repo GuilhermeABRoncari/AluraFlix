@@ -34,9 +34,10 @@ class VideoController extends Controller
 
         $resourceLink = "localhost:8000/api/video/{$video->id}";
 
-        return response()->json(
-            ['message' => 'Video craido com sucesso: ' . $resourceLink],
-             Response::HTTP_CREATED)->header('Location', $resourceLink);
+        return response()->json([
+            'mensagem' => 'Video craido com sucesso: ' . $resourceLink, 
+            'data' => $video
+        ], Response::HTTP_CREATED)->header('Location', $resourceLink);
     }
 
     public function atualizar(int $id, AtualizaVideoRequest $request)

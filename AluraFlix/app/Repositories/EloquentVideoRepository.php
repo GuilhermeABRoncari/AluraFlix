@@ -6,11 +6,12 @@ use App\Models\Video;
 
 class EloquentVideoRepository implements VideoRepository
 {
-    public function salvar(array $dadosVideo): Video
+    public function salvar(array $dados): Video
     {
-        return Video::create($dadosVideo);
+        return Video::create($dados);
     }
 
+    /** @return Video[] */
     public function encontrarTodos()
     {
         return Video::all();
@@ -21,15 +22,15 @@ class EloquentVideoRepository implements VideoRepository
         return Video::findOrFail($id);
     }
 
-    public function atualiza(Video $video, array $dadosVideo): Video
+    public function atualizar(Video $video, array $dados): Video
     {
-        $video->atualiza($dadosVideo);
+        $video->atualiza($dados);
         $video->save();
 
         return $video;
     }
 
-    public function deleta(Video $video): void
+    public function deletar(Video $video): void
     {
         $video->delete();
     }

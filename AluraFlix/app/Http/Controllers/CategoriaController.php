@@ -2,50 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
 use Illuminate\Http\Response;
+use App\Services\CategoriaService;
 use App\Http\Requests\CategoriaRequest;
 use App\Http\Requests\AtualizaCategoriaRequest;
 
 class CategoriaController extends Controller
 {
+    private CategoriaService $service;
+
+    public function __construct(CategoriaService $service)
+    {
+        $this->service = $service;
+    }
+
     public function cadastrar(CategoriaRequest $request)
     {
-        return response()->json(Categoria::create($request->validated()));
+        $dadosValidados = $request->validated();
+        $categoria = $this->service->criaCategoria($dadosValidados);
+        $resourceLink = "localhost:8000/api/categoria/{$categoria->id}";
+
+        return response()->json([
+            'mensagem' => 'Categoria criada com sucesso: ' . $resourceLink, 
+            'data' => $categoria
+        ], Response::HTTP_CREATED)->header('Location', $resourceLink);
     }
 
     public function listar()
     {
-        return response()->json(Categoria::all());
+        return response()->json($this->service->encontrarTodos());
     }
 
     public function encontrar(int $id)
     {
-        return response()->json(Categoria::findOrFail($id));
+        return response()->json($this->service->encontrarPorId($id));
     }
 
     public function atualizar(int $id, AtualizaCategoriaRequest $request)
     {
         $dadosValidos = $request->validated();
-        $categoria = Categoria::findOrFail($id);
-        $categoria->atualiza($dadosValidos);
-        $categoria->save();
-
-        return response()->json($categoria);
+        return response()->json($this->service->atualizaPorId($id, $dadosValidos));
     } 
     
     public function deletar(int $id)
     {
-        $categoria = Categoria::findOrFail($id);
-        $categoria->delete();
+        $this->service->deletaPorId($id);
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
     public function videoPorCategoria(int $id)
     {
-        $categoria = Categoria::findOrFail($id);
-        $videosRelacionados = $categoria->videos;
-
-        return response()->json($videosRelacionados);
+        return response()->json($this->service->listarVideosPorIdCategoria($id));
     }
 }

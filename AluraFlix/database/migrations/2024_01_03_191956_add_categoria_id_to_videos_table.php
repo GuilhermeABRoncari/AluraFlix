@@ -14,7 +14,7 @@ class AddCategoriaIdToVideosTable extends Migration
     public function up()
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->foreignId('categoria_id')->default(1)->constrained('categorias');
+            $table->foreignId('categoria_id')->constrained('categorias');
         });
     }
 

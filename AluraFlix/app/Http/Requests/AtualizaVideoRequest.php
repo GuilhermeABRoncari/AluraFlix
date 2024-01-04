@@ -27,11 +27,12 @@ class AtualizaVideoRequest extends FormRequest
             'titulo' => 'string|min:1|max:60',
             'descricao' => 'string|max:1000',
             'url' => 'url',
+            'categoria_id' => 'integer'
         ];
     }
 
     public function validated()
     {
-        return $this->only(['titulo', 'descricao', 'url']);
+        return $this->only(['titulo', 'descricao', 'url', 'categoria_id']);
     }
 }
