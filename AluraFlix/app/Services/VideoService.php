@@ -50,4 +50,11 @@ class VideoService
         $video = $this->videoRepository->encontrarPorId($id);
         $this->videoRepository->deletar($video);
     }
+
+    /** @return Video[] */
+    public function encontrarPorTitulo(string $pesquisa)
+    {
+        $pesquisaSanitizada = trim($pesquisa);
+        return $this->videoRepository->encontrarPorTitulo($pesquisaSanitizada);
+    }
 }

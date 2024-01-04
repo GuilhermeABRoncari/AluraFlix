@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Video;
+use Illuminate\Support\Facades\DB;
 
 class EloquentVideoRepository implements VideoRepository
 {
@@ -33,5 +34,11 @@ class EloquentVideoRepository implements VideoRepository
     public function deletar(Video $video): void
     {
         $video->delete();
+    }
+
+    /** @return Video[] */
+    public function encontrarPorTitulo(string $pesquisa)
+    {
+        return Video::where(DB::raw('LOWER(titulo)'), 'like', '%'. strtolower($pesquisa) .'%')->get();
     }
 }

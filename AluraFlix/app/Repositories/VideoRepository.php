@@ -12,4 +12,6 @@ interface VideoRepository
     public function encontrarPorId(int $id): Video;
     public function atualizar(Video $video, array $dados): Video;
     public function deletar(Video $video): void;
+    /** @return Video[] */
+    public function encontrarPorTitulo(string $pesquisa);
 }

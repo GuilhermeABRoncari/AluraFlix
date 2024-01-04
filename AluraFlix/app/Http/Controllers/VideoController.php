@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\VideoService;
 use App\Http\Requests\CriaVideoRequest;
@@ -49,5 +50,11 @@ class VideoController extends Controller
     {
         $video->delete();
         return response()->json(['message' => "Video deletado com id: {$video->id}"], Response::HTTP_NO_CONTENT);
+    }
+
+    public function encontraVideoPorTitulo(Request $request)
+    {
+        $pesquisa = strip_tags($request->input('search'));
+        return response()->json($this->service->encontrarPorTitulo($pesquisa));
     }
 }

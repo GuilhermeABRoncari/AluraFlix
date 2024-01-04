@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
 
+use function Laravel\Prompts\search;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,6 +27,7 @@ Route::get('/videos/{video}', [VideoController::class, 'encontrarPorId']);
 Route::post('/videos', [VideoController::class, 'criaNovoVideo']);
 Route::put('/videos/{video}', [VideoController::class, 'atualizar']);
 Route::delete('/videos/{video}', [VideoController::class, 'deletaVideo']);
+Route::get('/videos', [VideoController::class, 'encontraVideoPorTitulo']);
 
 Route::post('/categorias', [CategoriaController::class, 'cadastrar']);
 Route::get('/categorias', [CategoriaController::class, 'listar']);
