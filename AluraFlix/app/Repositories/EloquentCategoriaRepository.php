@@ -21,7 +21,7 @@ class EloquentCategoriaRepository implements CategoriaRepository
 
     public function encontrarPorId(int $id): Categoria
     {
-        return Categoria::find($id);
+        return Categoria::findOrFail($id);
     }
 
     public function atualizar(Categoria $categoria, array $dados): Categoria
