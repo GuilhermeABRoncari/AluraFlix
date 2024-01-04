@@ -69,4 +69,10 @@ class VideoControllerTest extends TestCase
     {
         $this->deleteJson("/api/videos/{$this->video->id}")->assertStatus(Response::HTTP_NO_CONTENT);
     }
+
+    public function testDeveRetornarStatusCodeOkParaBuscaValidaPorVideoPorTitulo()
+    {
+        $pesquisa = 'teste';
+        $this->getJson("/api/videos?search={$pesquisa}")->assertStatus(Response::HTTP_OK);
+    }
 }
