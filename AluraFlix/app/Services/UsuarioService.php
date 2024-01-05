@@ -34,9 +34,10 @@ class UsuarioService
 
     public function autenticar(array $credenciais): string
     {
-        throw_if (!Auth::attempt($credenciais), throw ValidationException::withMessages(['mensagem' => 'Email ou senha invalidos']));
-        $usuario = Auth::user();
-        return $this->gerarToken($usuario);
+        if (Auth::attempt(['email' => $credenciais['email'], 'password' => $credenciais['password']])) {
+            $usuario = Auth::user();
+            return $this->gerarToken($usuario);
+        } else throw ValidationException::withMessages(['mensagem' => 'Email ou senha invalidos']);
     }
 
     public function listar()
@@ -56,10 +57,9 @@ class UsuarioService
 
     public function removerUsuario(User $usuario, array $credenciais): void
     {
-        throw_if (!Hash::check($credenciais['password'], $usuario->password), 
-            throw ValidationException::withMessages([
-                'erro' => 'Email ou senha invalidos.'
-        ])); 
+        if (!Hash::check($credenciais['password'], $usuario->password)) {
+            throw ValidationException::withMessages(['erro' => 'Email ou senha invalidos.']);
+        }
         
         $this->repository->deletar($usuario);
     }
