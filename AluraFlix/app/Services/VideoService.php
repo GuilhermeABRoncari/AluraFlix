@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Exceptions\CategoriaInvalidaException;
 use App\Models\Video;
-use App\Repositories\CategoriaRepository;
 use App\Repositories\VideoRepository;
+use App\Repositories\CategoriaRepository;
+use App\Exceptions\CategoriaInvalidaException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VideoService
@@ -51,7 +52,7 @@ class VideoService
         $this->videoRepository->deletar($video);
     }
 
-    /** @return Video[] */
+    /** @return LengthAwarePaginator */
     public function encontrarPorTitulo(string $pesquisa)
     {
         $pesquisaSanitizada = trim($pesquisa);

@@ -21,5 +21,6 @@ class Video extends Model
         $this->descricao = isset($dados['descricao']) ? $dados['descricao'] : $this->descricao;
         $this->url = isset($dados['url']) ? $dados['url'] : $this->url; 
         $this->categoria_id = isset($dados['categoria_id']) ? $dados['categoria_id'] : $this->categoria_id;
+        $this->save();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Video;
 use App\Models\Categoria;
 use App\Repositories\CategoriaRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CategoriaService
 {
@@ -43,7 +44,7 @@ class CategoriaService
         $this->repository->deletar($categoria);
     }
 
-    /** @return Video[] */
+    /** @return LengthAwarePaginator */
     public function listarVideosPorIdCategoria(int $id)
     {
         $categoria = $this->repository->encontrarPorId($id);

@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use App\Models\Categoria;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class EloquentCategoriaRepository implements CategoriaRepository
 {
@@ -13,10 +13,10 @@ class EloquentCategoriaRepository implements CategoriaRepository
         return Categoria::create($dados);
     }
 
-    /** @return Categoria[] */
+    /** @return LengthAwarePaginator */
     public function encontrarTodos()
     {
-        return Categoria::all();
+        return Categoria::paginate(5);
     }
 
     public function encontrarPorId(int $id): Categoria
@@ -27,8 +27,6 @@ class EloquentCategoriaRepository implements CategoriaRepository
     public function atualizar(Categoria $categoria, array $dados): Categoria
     {
         $categoria->atualiza($dados);
-        $categoria->save();
-
         return $categoria;
     }
 
@@ -37,10 +35,10 @@ class EloquentCategoriaRepository implements CategoriaRepository
         $categoria->delete();
     }
 
-    /** @return Video[] */
+    /** @return LengthAwarePaginator */
     public function listarVideos(Categoria $categoria)
     {
-        return $categoria->videos;
+        return $categoria->videos()->paginate(5);
     }
 
     public function categoriaExiste(int $id): bool

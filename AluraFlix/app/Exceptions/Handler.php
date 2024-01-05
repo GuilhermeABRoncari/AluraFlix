@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\DomainExceptions\AuthValidateException;
 use Throwable;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -44,7 +45,7 @@ class Handler extends ExceptionHandler
             $response = [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => $ex->getMessage(),
-                'timestamp' => now()->format('d:m:Y H:i')
+                'timestamp' => now()->setTimezone('America/Sao_Paulo')->format('d-m-Y H:i')
             ];
             return response()->json($response, Response::HTTP_NOT_FOUND);
         });

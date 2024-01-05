@@ -15,7 +15,7 @@ class EloquentVideoRepository implements VideoRepository
     /** @return Video[] */
     public function encontrarTodos()
     {
-        return Video::all();
+        return Video::paginate(5);
     }
 
     public function encontrarPorId(int $id): Video
@@ -26,8 +26,6 @@ class EloquentVideoRepository implements VideoRepository
     public function atualizar(Video $video, array $dados): Video
     {
         $video->atualiza($dados);
-        $video->save();
-
         return $video;
     }
 
@@ -39,6 +37,6 @@ class EloquentVideoRepository implements VideoRepository
     /** @return Video[] */
     public function encontrarPorTitulo(string $pesquisa)
     {
-        return Video::where(DB::raw('LOWER(titulo)'), 'like', '%'. strtolower($pesquisa) .'%')->get();
+        return Video::where(DB::raw('LOWER(titulo)'), 'like', '%'. strtolower($pesquisa) .'%')->paginate(5);
     }
 }

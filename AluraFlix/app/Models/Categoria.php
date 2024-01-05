@@ -20,5 +20,6 @@ class Categoria extends Model
     {
         $this->titulo = isset($dados['titulo']) ? $dados['titulo'] : $this->titulo;
         $this->cor = isset($dados['cor']) ? $dados['cor'] : $this->cor;
+        $this->save();
     }
 }

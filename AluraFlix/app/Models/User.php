@@ -41,4 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function atualiza(array $dados)
+    {
+        $this->name = isset($dados['name']) ? $dados['name'] : $this->name;
+        $this->save();
+    }
 }
