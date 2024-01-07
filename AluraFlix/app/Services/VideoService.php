@@ -41,10 +41,16 @@ class VideoService
         return $this->videoRepository->encontrarPorId($id);
     }
 
-    public function atualizarPorId(int $id, array $dadosVideo): Video
+    public function atualizarPorId(int $id, array $dados): Video
     {
         $video = $this->videoRepository->encontrarPorId($id);
-        $this->videoRepository->atualizar($video, $dadosVideo);
+
+        if (isset($dados['categoria_id'])) {
+            throw_if (!$this->categoriaRepository->categoriaExiste($dados['categoria_id']), 
+                new CategoriaInvalidaException("Categoria com id: {$dados['categoria_id']} não existe."));
+        }
+        
+        $this->videoRepository->atualizar($video, $dados);
         return $video;
     }
 
