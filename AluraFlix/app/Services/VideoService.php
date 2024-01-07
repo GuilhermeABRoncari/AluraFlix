@@ -26,7 +26,7 @@ class VideoService
     {
         $dados['categoria_id'] = isset($dados['categoria_id']) ? $dados['categoria_id'] : 1;
 
-        throw_if (!$this->categoriaRepository->categoriaExiste($dados['categoria_id']), new CategoriaInvalidaException("Categoria com id: {$dados['categoria_id']} não existe."));
+        $this->verificaIdCategoria($dados);
             
         return $this->videoRepository->salvar($dados);
     }
@@ -45,10 +45,7 @@ class VideoService
     {
         $video = $this->videoRepository->encontrarPorId($id);
 
-        if (isset($dados['categoria_id'])) {
-            throw_if (!$this->categoriaRepository->categoriaExiste($dados['categoria_id']), 
-                new CategoriaInvalidaException("Categoria com id: {$dados['categoria_id']} não existe."));
-        }
+        $this->verificaIdCategoria($dados);
         
         $this->videoRepository->atualizar($video, $dados);
         return $video;
@@ -77,5 +74,13 @@ class VideoService
         });
 
         return $videosDoDia;
+    }
+
+    private function verificaIdCategoria(array $dados): void
+    {
+        if (isset($dados['categoria_id'])) {
+            throw_if (!$this->categoriaRepository->categoriaExiste($dados['categoria_id']), 
+                new CategoriaInvalidaException("Categoria com id: {$dados['categoria_id']} não existe."));
+        }
     }
 }
