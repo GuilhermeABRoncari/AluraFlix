@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/registrar', [UsuarioController::class, 'registrar']);
 Route::post('/login', [UsuarioController::class, 'login']);
+Route::get('/videos/free', [VideoController::class, 'videosDoDia']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/videos', [VideoController::class, 'retornarTodos']);

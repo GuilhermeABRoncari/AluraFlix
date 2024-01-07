@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class EloquentVideoRepository implements VideoRepository
 {
@@ -12,7 +13,7 @@ class EloquentVideoRepository implements VideoRepository
         return Video::create($dados);
     }
 
-    /** @return Video[] */
+    /** @return LengthAwarePaginator */
     public function encontrarTodos()
     {
         return Video::paginate(5);
@@ -34,9 +35,15 @@ class EloquentVideoRepository implements VideoRepository
         $video->delete();
     }
 
-    /** @return Video[] */
+    /** @return LengthAwarePaginator */
     public function encontrarPorTitulo(string $pesquisa)
     {
         return Video::where(DB::raw('LOWER(titulo)'), 'like', '%'. strtolower($pesquisa) .'%')->paginate(5);
+    }
+
+    /** @return Video[] */
+    public function obterVideosAleatorios(int $qtd): array
+    {
+        return Video::inRandomOrder()->limit($qtd)->get()->toArray();
     }
 }

@@ -97,4 +97,9 @@ class VideoControllerTest extends TestCase
             ->getJson("/api/videos?search={$pesquisa}")
             ->assertStatus(Response::HTTP_OK);
     }
+
+    public function testDeveRetornarStatusOkAoBuscarVideosLiberadosDoDia()
+    {
+        $this->getJson('/api/videos/free')->assertStatus(Response::HTTP_OK);
+    }
 }

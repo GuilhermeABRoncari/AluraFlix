@@ -15,4 +15,6 @@ interface VideoRepository
     public function deletar(Video $video): void;
     /** @return LengthAwarePaginator */
     public function encontrarPorTitulo(string $pesquisa);
+    /** @return Video[] */
+    public function obterVideosAleatorios(int $qtd): array;
 }

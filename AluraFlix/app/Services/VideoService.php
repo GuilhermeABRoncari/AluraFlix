@@ -2,17 +2,19 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Video;
 use App\Repositories\VideoRepository;
+use Illuminate\Support\Facades\Cache;
 use App\Repositories\CategoriaRepository;
 use App\Exceptions\CategoriaInvalidaException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VideoService
 {
     private VideoRepository $videoRepository;
     private CategoriaRepository $categoriaRepository;
+    const QTD_VIDEOS_POR_DIA = 5;
 
     public function __construct(VideoRepository $videoRepository, CategoriaRepository $categoriaRepository)
     {
@@ -57,5 +59,17 @@ class VideoService
     {
         $pesquisaSanitizada = trim($pesquisa);
         return $this->videoRepository->encontrarPorTitulo($pesquisaSanitizada);
+    }
+
+    /** @return Video[] */
+    public function videosLiberados(): array
+    {
+        $dataAtual = Carbon::now()->toDateString();
+
+        $videosDoDia = Cache::remember("videos_do_dia_{$dataAtual}", now()->addDay(), function () {
+            return $this->videoRepository->obterVideosAleatorios(self::QTD_VIDEOS_POR_DIA);
+        });
+
+        return $videosDoDia;
     }
 }

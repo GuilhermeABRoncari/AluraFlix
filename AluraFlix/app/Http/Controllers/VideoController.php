@@ -57,4 +57,9 @@ class VideoController extends Controller
         $pesquisa = strip_tags($request->input('search'));
         return response()->json($this->service->encontrarPorTitulo($pesquisa));
     }
+
+    public function videosDoDia()
+    {
+        return response()->json($this->service->videosLiberados());
+    }
 }
