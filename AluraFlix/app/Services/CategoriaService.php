@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Video;
+use App\Exceptions\CategoriaLivreException;
 use App\Models\Categoria;
 use App\Repositories\CategoriaRepository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CategoriaService
@@ -34,12 +33,16 @@ class CategoriaService
 
     public function atualizaPorId(int $id, array $dados): Categoria
     {
+        throw_if ($id == 1, new CategoriaLivreException());
+
         $categoria = $this->repository->encontrarPorId($id);
         return $this->repository->atualizar($categoria, $dados);
     }
 
     public function deletaPorId(int $id): void
     {
+        throw_if ($id == 1, new CategoriaLivreException());
+
         $categoria = $this->repository->encontrarPorId($id);
         $this->repository->deletar($categoria);
     }
